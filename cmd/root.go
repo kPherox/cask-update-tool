@@ -25,6 +25,19 @@ import (
     flag "github.com/spf13/pflag"
 )
 
+// Flag alias map
+type AliasFlags map[string]string
+
+func (fa AliasFlags) Get(name string) string {
+    v, ok := fa[name]
+    if ok {
+        return v
+    } else {
+        return name
+    }
+}
+
+// Global flags
 var (
     cfgFile string
     cfgPath string
@@ -51,13 +64,8 @@ func Execute() {
     }
 }
 
-func flagAliases(name string) string {
-    switch name {
-    case "config":
-        return "config-file"
-    default:
-        return name
-    }
+var aliasFlags AliasFlags = map[string]string{
+    "config": "config-file",
 }
 
 func init() {
@@ -69,7 +77,7 @@ func init() {
     rootCmd.PersistentFlags().SortFlags = false
     rootCmd.Flags().SortFlags = false
     rootCmd.SetGlobalNormalizationFunc(func(_ *flag.FlagSet, name string)flag.NormalizedName{
-        return flag.NormalizedName(flagAliases(name))
+        return flag.NormalizedName(aliasFlags.Get(name))
     })
 }
 
