@@ -27,16 +27,9 @@ var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-    Use:   "cask-update-tool",
-    Short: "A brief description of your application",
-    Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-    // Uncomment the following line if your bare application
-    // has an action associated with it:
+    Use:     "cask-update-tool",
+    Version: "0.0.1",
+    Short:   "Command line tool for cask update, using GitHub Release API.",
     Run: func(cmd *cobra.Command, args []string) {
         cmd.Usage()
         os.Exit(1)
@@ -53,8 +46,6 @@ func Execute() {
 }
 
 func init() {
-    rootCmd.Version = "v0.0.1"
-
     cobra.OnInitialize(initConfig)
 
     // Here you will define your flags and configuration settings.
