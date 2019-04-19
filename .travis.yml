@@ -1,0 +1,25 @@
+os: osx
+language: go
+
+go:
+  - 1.11.x
+  - master
+
+cache:
+  directories:
+    - $HOME/Library/Caches/go-build
+    - $HOME/gopath/pkg/mod
+
+branches:
+  only: master
+
+env:
+  global:
+    - GO111MODULE=on
+
+install: true
+
+before_script:
+  - go get
+
+script: go test -v ./cmd
