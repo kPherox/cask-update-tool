@@ -49,9 +49,8 @@ var rootCmd = &cobra.Command{
     Use:     "cask-update-tool",
     Version: "0.0.1",
     Short:   "Command line tool for cask update, using GitHub Release API.",
-    Run: func(cmd *cobra.Command, args []string) {
-        cmd.Usage()
-        os.Exit(1)
+    RunE: func(cmd *cobra.Command, args []string) error {
+        return fmt.Errorf(`Need subcommand`)
     },
 }
 
