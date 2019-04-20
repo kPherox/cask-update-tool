@@ -18,7 +18,14 @@ env:
 
 install: true
 
-before_script:
-  - go get
+jobs:
+  include:
+    - stage: prepare cache
+      script: true
+    - stage: test
+      before_script: go get
+      script: go test -v ./cmd
 
-script: go test -v ./cmd
+stages:
+  - prepare cache
+  - test
