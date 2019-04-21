@@ -1,14 +1,6 @@
 os: osx
 language: go
-
-go:
-  - 1.11.x
-  - master
-
-cache:
-  directories:
-    - $HOME/Library/Caches/go-build
-    - $HOME/gopath/pkg/mod
+go: 1.11.x
 
 branches:
   only: master
@@ -17,9 +9,22 @@ env:
   global:
     - GO111MODULE=on
 
+
+cache:
+  directories:
+    - $HOME/Library/Caches/go-build
+    - $HOME/gopath/pkg/mod
+
 install: true
 
-before_script:
-  - go get
+jobs:
+  include:
+    - script: go test -v -race -coverprofile=cover.out -covermode=atomic $(go list ./... | grep -v cask-update-tool\$)
+      after_success: bash <(curl -s https://codecov.io/bash) -f cover.out
 
-script: go test -v ./cmd
+    - stage: prepare cache
+      script: go get
+
+stages:
+  - prepare cache
+  - test
